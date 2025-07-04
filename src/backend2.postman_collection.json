@@ -1,0 +1,614 @@
+{
+	"info": {
+		"_postman_id": "c6d5df51-000e-4d8d-92b4-88d46b0c3996",
+		"name": "backend2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34108934"
+	},
+	"item": [
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "create client",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTA5NzE2NTYsInVzZXJfaWQiOiJ1c2VyLWVhYWMyOWU0LTE2ODAtNGI4Mi1iNjMyLTRiNjQzMDZkOGU4NCJ9.sFdvnSzjwhCaVKO7niO5lBabeQ-ttPqT3D-8wHl1Hhs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"client_name\": \"testDTO\",\r\n  \"client_sure_name\": \"testDTO\",\r\n  \"birth_date\": \"1995-05-15T00:00:00Z\",\r\n  \"gender\": \"male\",\r\n  \"address\": {\r\n     \"country\": \"testDTO\",\r\n    \"city\": \"testDTO\",\r\n    \"street\": \"testDTO\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all clients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "Autharization",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTExMjQxMzUsInVzZXJfaWQiOiJ1c2VyLTJiZTVkNTAxLTk3NTAtNDNjOS04MDA5LWU3MDUwZmI0OTUwYyJ9.Zo_PfvIUO8QOXfCFXCGJ64r5neJTn_2OjiLFhZV4KZg",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get client by name and surname",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/client?name=testDTO&surname=testDTO",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"client"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "testDTO"
+								},
+								{
+									"key": "surname",
+									"value": "testDTO"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delet client by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/client/5d7172ab-51be-427b-b2bc-85ee20cd1c3b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"client",
+								"5d7172ab-51be-427b-b2bc-85ee20cd1c3b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adr uppdate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\":\"1\",\r\n    \"country\":\"1\",\r\n    \"street\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/client/f7c0c63b-c472-4457-bd64-eb01b8da349a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"client",
+								"f7c0c63b-c472-4457-bd64-eb01b8da349a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "supplier",
+			"item": [
+				{
+					"name": "create supplier",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"ООО\",\r\n  \"phone\": \"+7-999-123-45-67\",\r\n  \"address\": {\r\n    \"country\": \"testDTO\",\r\n    \"city\": \"testDTO\",\r\n    \"street\": \"testDTO\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/supplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"supplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all suppler",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/suppliers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get suppplier by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/supplier/b7deb1ea-1c9c-4e51-bebe-7de1a2f92371",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"supplier",
+								"b7deb1ea-1c9c-4e51-bebe-7de1a2f92371"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adr update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\":\"2\",\r\n    \"country\":\"1\",\r\n    \"street\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/supplier/b7deb1ea-1c9c-4e51-bebe-7de1a2f92371",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"supplier",
+								"b7deb1ea-1c9c-4e51-bebe-7de1a2f92371"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete supplier",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\":\"1\",\r\n    \"country\":\"1\",\r\n    \"street\":\"1\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/supplier/b7deb1ea-1c9c-4e51-bebe-7de1a2f92371",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"supplier",
+								"b7deb1ea-1c9c-4e51-bebe-7de1a2f92371"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "img",
+			"item": [
+				{
+					"name": "create img",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ivank/OneDrive/Pictures/Saved Pictures/roofline-girl-1s-2560x1080.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/70efcbd0-30a0-4291-a032-a27870d35104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"70efcbd0-30a0-4291-a032-a27870d35104"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get immg by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/ivank/OneDrive/Pictures/Saved Pictures/roofline-girl-1s-2560x1080.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/8d35c3a4-a9ce-43dd-a037-60144a48e9e3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"8d35c3a4-a9ce-43dd-a037-60144a48e9e3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update img",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/projects/backendS21/Backend.Project_1-1/src/img.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/fda91489-bc29-4d9a-974f-6e2c9748c5fa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"fda91489-bc29-4d9a-974f-6e2c9748c5fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delet img",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/projects/backendS21/Backend.Project_1-1/src/img.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/fda91489-bc29-4d9a-974f-6e2c9748c5fa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"fda91489-bc29-4d9a-974f-6e2c9748c5fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image by productID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/b67514ee-b6bc-474a-a3f4-6c10b0a0ab32/image",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"b67514ee-b6bc-474a-a3f4-6c10b0a0ab32",
+								"image"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Кофе Арабика\",\r\n  \"category\": \"Напитки\",\r\n  \"price\": 349.99,\r\n  \"available_stock\": 120,\r\n  \"suppler_id\": \"84297dc7-3b1b-4e1b-9f70-8349455e0f51\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Кофе Арабика\",\r\n  \"category\": \"Напитки\",\r\n  \"price\": 349.99,\r\n  \"available_stock\": 120,\r\n  \"suppler_id\": \"672ef8cb-8330-4675-b2e2-11f15ed0c796\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/product/70efcbd0-30a0-4291-a032-a27870d35104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"70efcbd0-30a0-4291-a032-a27870d35104"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reduce",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Кофе Арабика\",\r\n  \"category\": \"Напитки\",\r\n  \"price\": 349.99,\r\n  \"available_stock\": 120,\r\n  \"suppler_id\": \"672ef8cb-8330-4675-b2e2-11f15ed0c796\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/product/70efcbd0-30a0-4291-a032-a27870d35104?count=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"70efcbd0-30a0-4291-a032-a27870d35104"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Кофе Арабика\",\r\n  \"category\": \"Напитки\",\r\n  \"price\": 349.99,\r\n  \"available_stock\": 120,\r\n  \"suppler_id\": \"672ef8cb-8330-4675-b2e2-11f15ed0c796\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Кофе Арабика\",\r\n  \"category\": \"Напитки\",\r\n  \"price\": 349.99,\r\n  \"available_stock\": 120,\r\n  \"suppler_id\": \"672ef8cb-8330-4675-b2e2-11f15ed0c796\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/product/70efcbd0-30a0-4291-a032-a27870d35104",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"product",
+								"70efcbd0-30a0-4291-a032-a27870d35104"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

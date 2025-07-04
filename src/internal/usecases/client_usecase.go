@@ -1,0 +1,122 @@
+package usecases
+
+import (
+	"backend2/internal/apperr"
+	"backend2/internal/entity"
+	"backend2/internal/utils"
+	"errors"
+	"fmt"
+	"time"
+)
+
+type ClientRepository interface {
+	CreateClient(newClient entity.Client) (entity.Client, error)
+	UpdateClient(newClient entity.Client) (entity.Client, error)
+	DeleteClient(id string) error
+	GetAllClients(limit, offset int) ([]entity.Client, error)
+	GetClientById(id string) (entity.Client, error)
+	GetClients(name, surName string) ([]entity.Client, error)
+}
+
+type Client struct {
+	repo ClientRepository
+	adr  AddressRepo
+}
+
+func NewClient(repo ClientRepository, adrRepo AddressRepo) *Client {
+	return &Client{
+		repo: repo,
+		adr:  adrRepo,
+	}
+}
+
+func (c *Client) CreateClient(name, surname, gender string, regData, birthday time.Time, country, city, street string) (entity.Client, error) {
+	id, err := utils.GenerateUUID()
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: generate client id: %w", err)
+	}
+
+	addrId, err := utils.GenerateUUID()
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: generate address id: %w", err)
+	}
+
+	newAdr := entity.Address{
+		ID:      addrId,
+		Country: country,
+		City:    city,
+		Street:  street,
+	}
+
+	_, err = c.adr.Save(newAdr)
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: failed to add address: %w", err)
+	}
+
+	newClient := entity.Client{
+		Id:               id,
+		ClientName:       name,
+		ClientSurname:    surname,
+		Gender:           gender,
+		BirthDate:        birthday,
+		RegistrationDate: regData,
+		AddressId:        addrId,
+	}
+
+	res, err := c.repo.CreateClient(newClient)
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: failed to add client: %w", err)
+	}
+	return res, nil
+}
+
+func (c *Client) UpdateClient(id, country, city, street string) (entity.Client, error) {
+	client, err := c.repo.GetClientById(id)
+	if err != nil {
+		if errors.Is(err, apperr.ErrClientNotFound) {
+			return entity.Client{}, apperr.ErrClientNotFound
+		}
+		return entity.Client{}, fmt.Errorf("usecase: get client: %w", err)
+	}
+
+	_, err = c.adr.Update(entity.Address{
+		ID:      client.AddressId,
+		Country: country,
+		City:    city,
+		Street:  street,
+	})
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: update address: %w", err)
+	}
+
+	newClient, err := c.repo.GetClientById(id)
+	if err != nil {
+		return entity.Client{}, fmt.Errorf("usecase: get updated client: %w", err)
+	}
+	return newClient, nil
+}
+
+func (c *Client) DeleteClient(id string) error {
+	err := c.repo.DeleteClient(id)
+	if err != nil {
+		return fmt.Errorf("usecase: failed to delete client: %w", err)
+	}
+	return nil
+}
+
+func (c *Client) GetAllClients(limit, offset int) ([]entity.Client, error) {
+
+	clients, err := c.repo.GetAllClients(limit, offset)
+	if err != nil {
+		return nil, fmt.Errorf("usecase: failed to get all clients: %w", err)
+	}
+	return clients, nil
+}
+
+func (c *Client) GetClientsByNameSurname(name, surname string) ([]entity.Client, error) {
+	clients, err := c.repo.GetClients(name, surname)
+	if err != nil {
+		return nil, fmt.Errorf("usecase: failed to get clients by name and surname: %w", err)
+	}
+	return clients, nil
+}

@@ -1,0 +1,862 @@
+basePath: /api/v1
+definitions:
+  dto.AddressCreateDTO:
+    properties:
+      city:
+        example: London
+        type: string
+      country:
+        example: UK
+        type: string
+      street:
+        example: Privet Drive
+        type: string
+    required:
+    - city
+    - country
+    - street
+    type: object
+  dto.AddressDTO:
+    properties:
+      city:
+        example: London
+        type: string
+      country:
+        example: UK
+        type: string
+      id:
+        example: a123b456-c789-d012-e345-67890abcdef1
+        type: string
+      street:
+        example: Privet Drive
+        type: string
+    required:
+    - city
+    - country
+    - street
+    type: object
+  dto.ClientCreateRequestDTO:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressCreateDTO'
+      birth_date:
+        example: "2000-07-31T00:00:00Z"
+        type: string
+      client_name:
+        example: Harry
+        type: string
+      client_sure_name:
+        example: Potter
+        type: string
+      gender:
+        example: male
+        type: string
+    required:
+    - birth_date
+    - client_name
+    - client_sure_name
+    - gender
+    type: object
+  dto.ClientResponseDTO:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressDTO'
+      address_id:
+        example: a123b456-c789-d012-e345-67890abcdef1
+        type: string
+      birth_date:
+        example: "2000-07-31T00:00:00Z"
+        type: string
+      client_name:
+        example: Harry
+        type: string
+      client_sure_name:
+        example: Potter
+        type: string
+      gender:
+        example: male
+        type: string
+      id:
+        example: f19a3a7-12f5-4332-9582-624519c3eaea
+        type: string
+      register_date:
+        example: "2020-09-01T12:00:00Z"
+        type: string
+    type: object
+  dto.ClientUpdateRequestDTO:
+    properties:
+      city:
+        example: London
+        type: string
+      country:
+        example: UK
+        type: string
+      street:
+        example: Grimmauld Place
+        type: string
+    required:
+    - city
+    - country
+    - street
+    type: object
+  dto.ClientsNotFound:
+    properties:
+      clients:
+        items:
+          type: object
+        type: array
+      message:
+        type: string
+    type: object
+  dto.Error400:
+    properties:
+      code:
+        example: 400
+        type: integer
+      status:
+        example: invalid JSON
+        type: string
+    type: object
+  dto.Error404:
+    properties:
+      code:
+        example: 404
+        type: integer
+      status:
+        example: not found
+        type: string
+    type: object
+  dto.Error500:
+    properties:
+      code:
+        example: 500
+        type: integer
+      status:
+        example: internal server error
+        type: string
+    type: object
+  dto.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      status:
+        example: error
+        type: string
+    type: object
+  dto.ImageDTO:
+    properties:
+      id:
+        type: string
+      image:
+        items:
+          type: integer
+        type: array
+    type: object
+  dto.ProductCreateRequest:
+    properties:
+      available_stock:
+        example: 120
+        type: integer
+      category:
+        example: Alchemy
+        type: string
+      name:
+        example: Potion of Healing
+        type: string
+      price:
+        example: 49.99
+        type: number
+      suppler_id:
+        example: supplier-abc-123
+        type: string
+    required:
+    - available_stock
+    - category
+    - name
+    - price
+    - suppler_id
+    type: object
+  dto.ProductResponse:
+    properties:
+      available_stock:
+        example: 120
+        type: integer
+      category:
+        example: Alchemy
+        type: string
+      id:
+        example: product-xyz-789
+        type: string
+      image_id:
+        example: img-00112233
+        type: string
+      last_update_date:
+        example: "2025-07-01T15:04:05Z"
+        type: string
+      name:
+        example: Potion of Healing
+        type: string
+      price:
+        example: 49.99
+        type: number
+      suppler_id:
+        example: supplier-abc-123
+        type: string
+    type: object
+  dto.ProductsResponse:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/dto.ProductResponse'
+        type: array
+    type: object
+  dto.SupplierCreateRequestDTO:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressCreateDTO'
+      name:
+        example: Magic Supplies Inc.
+        type: string
+      phone:
+        example: +44-123-456-789
+        type: string
+    required:
+    - name
+    - phone
+    type: object
+  dto.SupplierResponseDTO:
+    properties:
+      address:
+        $ref: '#/definitions/dto.AddressDTO'
+      address_id:
+        example: address-5678
+        type: string
+      id:
+        example: supplier-1234
+        type: string
+      name:
+        example: Magic Supplies Inc.
+        type: string
+      phone:
+        example: +44-123-456-789
+        type: string
+    type: object
+  dto.SupplierUpdateAddressRequestDTO:
+    properties:
+      city:
+        example: Edinburgh
+        type: string
+      country:
+        example: UK
+        type: string
+      street:
+        example: Royal Mile
+        type: string
+    required:
+    - city
+    - country
+    - street
+    type: object
+  dto.SuppliersNotFound:
+    properties:
+      message:
+        type: string
+      suppliers:
+        items:
+          type: object
+        type: array
+    type: object
+  dto.SuppliersResponse:
+    properties:
+      suppliers:
+        items:
+          $ref: '#/definitions/dto.SupplierResponseDTO'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Документация для API интернет-магазина
+  title: Shop API
+  version: "1.0"
+paths:
+  /client:
+    get:
+      parameters:
+      - description: Имя
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Фамилия
+        in: query
+        name: surname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ClientResponseDTO'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/dto.ClientsNotFound'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Поиск клиента по имени и фамилии
+      tags:
+      - clients
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Создаваемый клиент
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClientCreateRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ClientResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Создать клиента
+      tags:
+      - clients
+  /client/{id}:
+    delete:
+      parameters:
+      - description: ID клиента
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Client not found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Удалить клиента
+      tags:
+      - clients
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID клиента
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Обновляемые поля
+        in: body
+        name: client
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClientUpdateRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ClientResponseDTO'
+        "400":
+          description: 'Bad request: invalid JSON or validation failed'
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: client not found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Обновить клиента
+      tags:
+      - clients
+  /clients:
+    get:
+      parameters:
+      - description: количество отоброжаемых клиентов
+        in: query
+        name: limit
+        type: string
+      - description: Смещение выборки
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ClientResponseDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ClientsNotFound'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Получить всех клиентов
+      tags:
+      - clients
+  /image/{id}:
+    delete:
+      parameters:
+      - description: ID изображения
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Удалить изображение
+      tags:
+      - images
+    get:
+      parameters:
+      - description: ID изображения
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Получить изображение по ID
+      tags:
+      - images
+    patch:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: ID изображения
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Новый файл
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Обновить изображение
+      tags:
+      - images
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: ID продукта
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Файл изображения
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ImageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Загрузить изображение
+      tags:
+      - images
+  /product:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Создаваемый товар
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Создать товар
+      tags:
+      - products
+  /product/{id}:
+    delete:
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Удалить товар
+      tags:
+      - products
+    get:
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Получить товар по ID
+      tags:
+      - products
+    patch:
+      parameters:
+      - description: ID товара
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Количество для вычитания
+        in: query
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Уменьшить количество товара
+      tags:
+      - products
+  /products:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ProductResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ProductsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: Получить список товаров
+      tags:
+      - products
+  /products/{id}/image:
+    get:
+      parameters:
+      - description: ID продукта
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Получить изображение товара
+      tags:
+      - images
+  /supplier:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Создаваемый поставщик
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SupplierCreateRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SupplierResponseDTO'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: создать поставщика
+      tags:
+      - suppliers
+  /supplier/{id}:
+    delete:
+      parameters:
+      - description: ID поставщика
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: 'Bad request: invalid JSON or validation failed'
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: client not found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: удалить поставщика по id
+      tags:
+      - suppliers
+    get:
+      parameters:
+      - description: ID поставщика
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SupplierResponseDTO'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Client not found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: получить поставщика по id
+      tags:
+      - suppliers
+    patch:
+      parameters:
+      - description: ID поставщика
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Обновляемые поля
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SupplierUpdateAddressRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SupplierResponseDTO'
+        "400":
+          description: 'Bad request: invalid JSON or validation failed'
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: client not found
+          schema:
+            $ref: '#/definitions/dto.Error404'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: обновить адрес поставщика по id
+      tags:
+      - suppliers
+  /suppliers:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuppliersResponse'
+        "400":
+          description: 'Bad request: invalid JSON or validation failed'
+          schema:
+            $ref: '#/definitions/dto.Error400'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.SuppliersNotFound'
+        "500":
+          description: internal error
+          schema:
+            $ref: '#/definitions/dto.Error500'
+      summary: получить всех поставщиков
+      tags:
+      - suppliers
+swagger: "2.0"

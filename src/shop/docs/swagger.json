@@ -1,0 +1,1285 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Документация для API интернет-магазина",
+        "title": "Shop API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/client": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Поиск клиента по имени и фамилии",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Имя",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Фамилия",
+                        "name": "surname",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ClientResponseDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientsNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Создать клиента",
+                "parameters": [
+                    {
+                        "description": "Создаваемый клиент",
+                        "name": "client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientCreateRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/client/{id}": {
+            "delete": {
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Удалить клиента",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID клиента",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Client not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Обновить клиента",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID клиента",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Обновляемые поля",
+                        "name": "client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientUpdateRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: invalid JSON or validation failed",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "client not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "clients"
+                ],
+                "summary": "Получить всех клиентов",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "количество отоброжаемых клиентов",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Смещение выборки",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ClientResponseDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClientsNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/image/{id}": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Получить изображение по ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID изображения",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Загрузить изображение",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID продукта",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Файл изображения",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ImageDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "images"
+                ],
+                "summary": "Удалить изображение",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID изображения",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Обновить изображение",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID изображения",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Новый файл",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Создать товар",
+                "parameters": [
+                    {
+                        "description": "Создаваемый товар",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Получить товар по ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID товара",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Удалить товар",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID товара",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Уменьшить количество товара",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID товара",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Количество для вычитания",
+                        "name": "count",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Получить список товаров",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ProductResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}/image": {
+            "get": {
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Получить изображение товара",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID продукта",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/supplier": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suppliers"
+                ],
+                "summary": "создать поставщика",
+                "parameters": [
+                    {
+                        "description": "Создаваемый поставщик",
+                        "name": "supplier",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SupplierCreateRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SupplierResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/supplier/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suppliers"
+                ],
+                "summary": "получить поставщика по id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID поставщика",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SupplierResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Client not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suppliers"
+                ],
+                "summary": "удалить поставщика по id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID поставщика",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request: invalid JSON or validation failed",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "client not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suppliers"
+                ],
+                "summary": "обновить адрес поставщика по id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID поставщика",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Обновляемые поля",
+                        "name": "supplier",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SupplierUpdateAddressRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SupplierResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: invalid JSON or validation failed",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "client not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error404"
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        },
+        "/suppliers": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "suppliers"
+                ],
+                "summary": "получить всех поставщиков",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuppliersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: invalid JSON or validation failed",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error400"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuppliersNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Error500"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.AddressCreateDTO": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "street"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "London"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "UK"
+                },
+                "street": {
+                    "type": "string",
+                    "example": "Privet Drive"
+                }
+            }
+        },
+        "dto.AddressDTO": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "street"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "London"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "UK"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "a123b456-c789-d012-e345-67890abcdef1"
+                },
+                "street": {
+                    "type": "string",
+                    "example": "Privet Drive"
+                }
+            }
+        },
+        "dto.ClientCreateRequestDTO": {
+            "type": "object",
+            "required": [
+                "birth_date",
+                "client_name",
+                "client_sure_name",
+                "gender"
+            ],
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressCreateDTO"
+                },
+                "birth_date": {
+                    "type": "string",
+                    "example": "2000-07-31T00:00:00Z"
+                },
+                "client_name": {
+                    "type": "string",
+                    "example": "Harry"
+                },
+                "client_sure_name": {
+                    "type": "string",
+                    "example": "Potter"
+                },
+                "gender": {
+                    "type": "string",
+                    "example": "male"
+                }
+            }
+        },
+        "dto.ClientResponseDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressDTO"
+                },
+                "address_id": {
+                    "type": "string",
+                    "example": "a123b456-c789-d012-e345-67890abcdef1"
+                },
+                "birth_date": {
+                    "type": "string",
+                    "example": "2000-07-31T00:00:00Z"
+                },
+                "client_name": {
+                    "type": "string",
+                    "example": "Harry"
+                },
+                "client_sure_name": {
+                    "type": "string",
+                    "example": "Potter"
+                },
+                "gender": {
+                    "type": "string",
+                    "example": "male"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "f19a3a7-12f5-4332-9582-624519c3eaea"
+                },
+                "register_date": {
+                    "type": "string",
+                    "example": "2020-09-01T12:00:00Z"
+                }
+            }
+        },
+        "dto.ClientUpdateRequestDTO": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "street"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "London"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "UK"
+                },
+                "street": {
+                    "type": "string",
+                    "example": "Grimmauld Place"
+                }
+            }
+        },
+        "dto.ClientsNotFound": {
+            "type": "object",
+            "properties": {
+                "clients": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.Error400": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "status": {
+                    "type": "string",
+                    "example": "invalid JSON"
+                }
+            }
+        },
+        "dto.Error404": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 404
+                },
+                "status": {
+                    "type": "string",
+                    "example": "not found"
+                }
+            }
+        },
+        "dto.Error500": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 500
+                },
+                "status": {
+                    "type": "string",
+                    "example": "internal server error"
+                }
+            }
+        },
+        "dto.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "error"
+                }
+            }
+        },
+        "dto.ImageDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "dto.ProductCreateRequest": {
+            "type": "object",
+            "required": [
+                "available_stock",
+                "category",
+                "name",
+                "price",
+                "suppler_id"
+            ],
+            "properties": {
+                "available_stock": {
+                    "type": "integer",
+                    "example": 120
+                },
+                "category": {
+                    "type": "string",
+                    "example": "Alchemy"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Potion of Healing"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 49.99
+                },
+                "suppler_id": {
+                    "type": "string",
+                    "example": "supplier-abc-123"
+                }
+            }
+        },
+        "dto.ProductResponse": {
+            "type": "object",
+            "properties": {
+                "available_stock": {
+                    "type": "integer",
+                    "example": 120
+                },
+                "category": {
+                    "type": "string",
+                    "example": "Alchemy"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "product-xyz-789"
+                },
+                "image_id": {
+                    "type": "string",
+                    "example": "img-00112233"
+                },
+                "last_update_date": {
+                    "type": "string",
+                    "example": "2025-07-01T15:04:05Z"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Potion of Healing"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 49.99
+                },
+                "suppler_id": {
+                    "type": "string",
+                    "example": "supplier-abc-123"
+                }
+            }
+        },
+        "dto.ProductsResponse": {
+            "type": "object",
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ProductResponse"
+                    }
+                }
+            }
+        },
+        "dto.SupplierCreateRequestDTO": {
+            "type": "object",
+            "required": [
+                "name",
+                "phone"
+            ],
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressCreateDTO"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Magic Supplies Inc."
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+44-123-456-789"
+                }
+            }
+        },
+        "dto.SupplierResponseDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/dto.AddressDTO"
+                },
+                "address_id": {
+                    "type": "string",
+                    "example": "address-5678"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "supplier-1234"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Magic Supplies Inc."
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+44-123-456-789"
+                }
+            }
+        },
+        "dto.SupplierUpdateAddressRequestDTO": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "street"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "example": "Edinburgh"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "UK"
+                },
+                "street": {
+                    "type": "string",
+                    "example": "Royal Mile"
+                }
+            }
+        },
+        "dto.SuppliersNotFound": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "suppliers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "dto.SuppliersResponse": {
+            "type": "object",
+            "properties": {
+                "suppliers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.SupplierResponseDTO"
+                    }
+                }
+            }
+        }
+    }
+}
